@@ -1,0 +1,175 @@
+/*Overview
+You will write a program that reads a csv file and allows you to perform several operations with the data.
+
+CSV Files
+For this project, the input file will be stored as comma-separated values (csv files format).
+You can take a look at csv files with an ordinary text file editor or by using Excel. Both views will be illustrated in the examples below.
+The file contains a database arranged as a 2-dimensional table. The first line (row) contains column headings. Each remaining line (row) contains a data record that consists of plain-text fields separated by commas.
+Here are two views of an example input file ex.csv (downloadable below):
+Id,Last name,First name,Weight,Empty,Age
+10,Saban,Nick,147.7,,69
+1,Jones,Mac,205.2,,22
+5,Ingram,Mark,210.0,,31
+3,Henry,Derrick,238.0,,27
+6,Harris,Najee,229.4,,22
+4,Smith,Devonta,174.0,,22
+8,Waddle,Jaylen,183.0,,
+2,Ridley,Calvin,190.0,,26
+9,Jones,Julio,220.0,,31
+7,Metchie,John,194.0,,
+Id	Last name	First name	Weight	Empty	Age
+10	Saban	Nick	147.7		69
+1	Jones	Mac	205.2		22
+5	Ingram	Mark	210.0		31
+3	Henry	Derrick	238.0		27
+6	Harris	Najee	229.4		22
+4	Smith	Devonta	174.0		22
+8	Waddle	Jaylen	183.0		
+2	Ridley	Calvin	190.0		26
+9	Jones	Julio	220.0		31
+7	Metchie	John	194.0		
+Implementation
+Name the program p1.cpp.
+The program accepts two command-line arguments:
+input csv filename
+display column width used when printing rows and columns from the csv
+Example: ./a.out ex.csv 15
+Your program will continually accept the following commands until the quit command is input:
+quit
+Stop accepting commands and close the program.
+help
+Print possible commands.
+print
+Print all rows and columns. Each column should be printed with a width equal to the second command line argument.
+cols
+Print all column names with each appearing on a newline.
+search col_name value
+Formatted print all rows where the value in column col_name equals the value. Each column should be printed with a width equal to the second command line argument.
+If col_name is *, then print any rows where the value appears in any column in the row. If a value appears in a row more than once, only print the row once.
+If no rows match, print "No results".
+min col_name
+Determine the minimum value in the column col_name. Ignore rows with blank values.
+Output: "The min for col "C" = X" where C is the column and X is the min or "N/A" if the min cannot be computed (all cells blank).
+max col_name
+Determine the maximum value in the column col_name. Ignore rows with blank values.
+Output: "The max for col "C" = X" where C is the column and X is the max or "N/A" if the max cannot be computed (all cells blank).
+avg col_name
+Calculate the average value in the column col_name. Ignore rows with blank values.
+Output: "The avg for col "col_name" = X" where C is the column and X is the average or "N/A" if the average cannot be computed (all cells blank).
+Error messages and actions:
+Invalid number of command-line arguments: "Usage: ./a database.csv #col_width" and close program
+Cannot open input csv file: "Failed to open "filename"" and close program
+Invalid command: "Invalid command" and ask for another command, consuming all input still remaining on the line
+Invalid col_name in input command: "Invalid column "col_name"" and do nothing
+The col_name and value provided in a command can appear inside quotes. For example: search Age 22 and search "Age" 22 and search "Age" "22" all perform the same operation. This is useful when the column being searched has whitespace, such as when searching the column "Last name": search "Last name" "van der Woodsen". It can also be useful when searching for a column with a blank value: search "*" "".
+Notes
+Review command-line arguments (link) if necessary.
+You should only include the following libraries: iostream, string, fstream, sstream, cctype, iomanip
+Assume valid input in the files and command (except for input that is supposed to trigger the error messages).
+Assume that each csv file contains at most 5,000 rows, and that every row contains the same number of columns, which is at most 50.
+The csv file will not always have the same columns as shown in the example, as they can have variable rows and columns.
+In the csv file, the data between commas is case- and whitespace-sensitive.
+In a command, the input is case-sensitive ("Age" is not the same as "age"). Any whitespace that appears inside a quoted input col_name/value is whitespace-sensitive ("First" is not the same as " First ").
+Assume min, max, and avg will be performed on columns only containing valid doubles.
+Your program should run according to the examples below.
+Submitting
+You have three submissions for this project where the highest grade earned is the grade received. It is advised to submit to the format checker to verify it works in the ZyBooks *nix environment for the examples provided. You can submit to the format checker unlimited times, and it is not graded.
+
+Examples
+% g++ p1.cpp
+% ./a.out          
+Usage: ./a database.csv #col_width
+% ./a.out does_not_exist.csv 12
+Failed to open "does_not_exist.csv"
+% ./a.out ex.csv 12
+Enter a command or "help" for a command list:
+help
+command list:
+        print
+        cols
+        search *|col_name val
+        min col_name
+        max col_name
+        avg col_name
+
+Enter a command or "help" for a command list:
+print
+          Id   Last name  First name      Weight       Empty         Age
+          10       Saban        Nick       147.7                      69
+           1       Jones         Mac       205.2                      22
+           5      Ingram        Mark       210.0                      31
+           3       Henry     Derrick       238.0                      27
+           6      Harris       Najee       229.4                      22
+           4       Smith     Devonta       174.0                      22
+           8      Waddle      Jaylen       183.0                        
+           2      Ridley      Calvin       190.0                      26
+           9       Jones       Julio       220.0                      31
+           7     Metchie        John       194.0                        
+
+Enter a command or "help" for a command list:
+cols
+Id
+Last name
+First name
+Weight
+Empty
+Age
+
+Enter a command or "help" for a command list:
+search Id 1
+          Id   Last name  First name      Weight       Empty         Age
+           1       Jones         Mac       205.2                      22
+
+Enter a command or "help" for a command list:
+search "First name" "Mac"
+          Id   Last name  First name      Weight       Empty         Age
+           1       Jones         Mac       205.2                      22
+
+Enter a command or "help" for a command list:
+search Age 22
+          Id   Last name  First name      Weight       Empty         Age
+           1       Jones         Mac       205.2                      22
+           6      Harris       Najee       229.4                      22
+           4       Smith     Devonta       174.0                      22
+
+Enter a command or "help" for a command list:
+search Age 100
+No results
+
+Enter a command or "help" for a command list:
+search * 22
+          Id   Last name  First name      Weight       Empty         Age
+           1       Jones         Mac       205.2                      22
+           6      Harris       Najee       229.4                      22
+           4       Smith     Devonta       174.0                      22
+
+Enter a command or "help" for a command list:
+min Age
+The min for col "Age" = 22
+
+Enter a command or "help" for a command list:
+max Age
+The max for col "Age" = 69
+
+Enter a command or "help" for a command list:
+avg Age
+The avg for col "Age" = 31.25
+
+Enter a command or "help" for a command list:
+Search random input
+Invalid command
+
+Enter a command or "help" for a command list:
+avg Weight
+The avg for col "Weight" = 199.13
+
+Enter a command or "help" for a command list:
+avg Empty
+The avg for col "Empty" = N/A
+
+Enter a command or "help" for a command list:
+avg invalid_col
+Invalid column "invalid_col"
+
+Enter a command or "help" for a command list:
+quit */
